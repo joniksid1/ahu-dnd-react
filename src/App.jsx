@@ -14,7 +14,7 @@ function App() {
   const [elementList, setElementList] = useState(initialState);
   const [currentElement, setCurrentElement] = useState({initialState: null});
 
-  function dragStartHandler(e, element) {
+  function dragStartHandler(e, element, board) {
     setCurrentElement(element);
   }
 
@@ -27,7 +27,7 @@ function App() {
     e.target.style.background = 'lightgray';
   }
 
-  function dropHandler(e, element) {
+  function dropHandler(e, element, board) {
     e.preventDefault();
     setElementList(elementList.map(elem => {
       if (elem.id === element.id) {
@@ -50,20 +50,29 @@ function App() {
   }
 
   return (
-    <div className="app">
-      {elementList.sort(sortElements).map(element => 
-        <div 
-          onDragStart={(e: DragEvent<HTMLDivElement>) => dragStartHandler(e, element)}
-          onDragLeave={(e: DragEvent<HTMLDivElement>) => dragEndHandler(e)}
-          onDragEnd={(e: DragEvent<HTMLDivElement>) => dragEndHandler(e)}
-          onDragOver={(e: DragEvent<HTMLDivElement>) => dragOverHandler(e)}
-          onDrop={(e: DragEvent<HTMLDivElement>) => dropHandler(e, element)}
-          draggable={true} 
-          className={'element'}
-          >
-          {element.text}
-        </div>
-      )}
+    <div className='app'>
+      <div className='board'>
+        {/* {board.items.map(item =>
+          <div className='item' draggable='true'>
+
+          </div>
+        )} */}
+      </div>
+      <div className={'elements'}>
+        {elementList.sort(sortElements).map(element => 
+          <div 
+            onDragStart={(e: DragEvent<HTMLDivElement>) => dragStartHandler(e, element)}
+            onDragLeave={(e: DragEvent<HTMLDivElement>) => dragEndHandler(e)}
+            onDragEnd={(e: DragEvent<HTMLDivElement>) => dragEndHandler(e)}
+            onDragOver={(e: DragEvent<HTMLDivElement>) => dragOverHandler(e)}
+            onDrop={(e: DragEvent<HTMLDivElement>) => dropHandler(e, element)}
+            draggable={true} 
+            className={'element'}
+            >
+            {element.text}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
